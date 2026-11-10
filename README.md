@@ -1,58 +1,93 @@
-# Celestial Odyssey real-data acquisition
+# POLARIX
 
-This package acquires only public archive measurements. It does not create replacement or simulated observations. Run it in a cloud VM/notebook with a persistent volume mounted at `CELESTIAL_DATA_ROOT`; the default is `/data/celestial-odyssey` on Linux and `./data` for local development. The acquisition command refuses to write to a Windows user profile by default, so configure an explicit mounted cloud path before running it on a laptop.
+### Discover the unusual. Investigate the unknown.
 
-## Setup and staged runs
+POLARIX is a planned AI-assisted astronomy platform that turns real TESS stellar light curves into candidates people can explore, test, and document. It brings anomaly detection together with scientific verification, sky-map exploration, and predictions for suitable periodic events.
 
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
-export CELESTIAL_DATA_ROOT=/mnt/persistent/celestial-odyssey
+**Observe → Detect → Explore → Investigate → Predict → Document**
 
-# Five targets: discover, fetch, crossmatch, preprocess, inventory
-celestial-data run --sector 1 --count 5 --seed 20261110
-# Expand the same deterministic sample to a milestone and the full set
-celestial-data run --sector 1 --count 50 --seed 20261110 --resume
-celestial-data run --sector 1 --count 300 --seed 20261110 --resume
-celestial-data inventory
+> **Project status:** The repository currently implements public-data acquisition, catalog crossmatching, quality filtering, normalization, rolling-median detrending, QC plots, and dataset inventory. The ML discovery workflow, interactive application, Gemma 4 investigator, and prediction/case-file features described below are planned—not yet implemented.
+
+## The opportunity
+
+TESS monitors stellar brightness over time. Repeating dips, flares, eclipsing binaries, and irregular variability can reveal interesting astrophysical behavior, but noise and instrument effects can look unusual too. POLARIX aims to help users move beyond “this looks different” to “what evidence supports an explanation?”
+
+The initial dataset contains **300 real TESS light-curve FITS files** from a selected observing sector. Each light curve is a time series of stellar brightness measurements.
+
+## Features
+
+- **Hybrid anomaly detection:** BLS searches for repeating transit-like dips; SciPy peak detection finds flare-like spikes and isolated dips; Isolation Forest and Local Outlier Factor identify unusual stars. Rank fusion combines their evidence into a review shortlist.
+- **Interactive Sky Explorer:** See candidate stars in their sky context.
+- **Mystery Missions:** Explore signals through guided, educational investigations.
+- **Signal Lab:** Compare observations, inspect quality flags, fold light curves by period, and test possible explanations.
+- **Gemma 4 Investigator:** Explore hypotheses using approved scientific tools. Python performs the calculations; Gemma explains the measured evidence, contradictions, and uncertainty.
+- **Predictions and Case Files:** Estimate future event times for reliable periodic signals, track later verification, and document evidence and conclusions.
+
+Signals receive provisional, pattern-based categories—not confirmed astronomical classifications:
+
+| Category | Signal pattern |
+|---|---|
+| **Hidden Shadows** | Repeating brightness dips |
+| **Sudden Flashes** | Short-lived brightness increases |
+| **Strange Patterns** | Irregular or unexpected variability |
+| **Single Mysteries** | Isolated unusual events |
+
+Nonperiodic signals are not assigned recurring predictions. Periodic predictions use a measured period and reference epoch and remain subject to later verification.
+
+## Analysis roadmap
+
+1. Filter unreliable measurements, normalize brightness, detrend long-term variations, and extract variability features.
+2. Detect periodic dips, spikes, and isolated events; measure periods, depths, durations, MAD, standard deviation, skewness, kurtosis, and amplitude.
+3. Rank unusual stars by fusing detector and outlier-model rankings.
+4. Let users examine candidates and test hypotheses against actual measurements and catalog information.
+5. Record evidence, uncertainty, and follow-up predictions for later review.
+
+The web architecture is **React/Vite/Tailwind** with **Plotly** and **Aladin Lite**, backed by **FastAPI** and a Python analysis service. **Gemma 4** is intended to call bounded scientific tools such as quality-flag inspection, raw/corrected comparison, period folding, odd/even depth checks, and catalog lookup. This application architecture is a target design; it is not present in the current repository.
+
+## Current pipeline and data
+
+The implemented command-line pipeline discovers and downloads public **TESS SPOC 120-second** light curves through [MAST](https://archive.stsci.edu/missions-and-data/tess), preserves original FITS files, quality-filters and normalizes measurements, applies rolling-median detrending, creates QC plots, and inventories results.
+
+Catalog crossmatches use:
+
+- [Gaia DR3](https://www.cosmos.esa.int/web/gaia/data-release-3) for stellar identity and properties
+- [SIMBAD](https://simbad.cds.unistra.fr/simbad/) for object identifiers and classifications
+- [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) for known planets and candidates
+- [MAST TESS eclipsing-binary catalog](https://archive.stsci.edu/hlsp/tess-ebs)
+
+Data and products are stored under `data/`: raw FITS files, processed NPZ time series, catalog snapshots, QC plots, logs, and `metadata/manifest.json`. The manifest records download counts, failures, catalog statuses, and provenance. Local `data/` is intentionally Git-ignored.
+
+## Run with Docker
+
+Install and start [Docker Desktop](https://www.docker.com/products/docker-desktop/), then build the image from the project directory:
+
+```shell
+docker build -t celestial-odyssey .
 ```
 
-Pick a sector where the MAST search returns at least 300 unique public SPOC 120-second light curves. Discovery checks the selected sector and fails clearly when the archive does not provide enough unique targets. A run can be resumed safely: successful FITS downloads are retained and verified; failed work is logged and retried on subsequent runs. `--eval-tic-file` accepts a newline-separated list of real TIC IDs to reserve as evaluation examples before random sampling. Known confirmed planets, planet candidates, and cataloged eclipsing binaries found by the archive crossmatches are also labeled `split=evaluation` in the final `targets.csv`; other targets are labeled `train`. No TIC IDs are invented by the pipeline.
+Mount `data/` to keep downloads and results on your computer.
 
-Follow-up download is opt-in and limited to the highest-priority targets in the manifest:
+**macOS (Terminal):**
 
-```bash
-celestial-data followup --limit 20
+```shell
+mkdir -p data
+docker run --rm --mount "type=bind,source=$(pwd)/data,target=/data/celestial-odyssey" polarix run --sector 1 --count 5 --seed 20261110
+docker run --rm --mount "type=bind,source=$(pwd)/data,target=/data/celestial-odyssey" polarix run --sector 1 --count 300 --seed 20261110 --resume
 ```
 
-Priority favors targets with more available sectors and catalog flags. No follow-up files are downloaded by the main command.
+**Windows (PowerShell; Docker Desktop with WSL 2):**
 
-## Data layout
-
-```text
-$CELESTIAL_DATA_ROOT/
-  raw/tic-<id>/sector-<n>.fits
-  processed/tic-<id>/sector-<n>.npz
-  catalogs/{gaia_dr3,simbad,known_objects,tess_ebs,sector_availability}.csv
-  metadata/targets.csv, target_metadata.json, manifest.json
-  qc/tic-<id>-sector-<n>.png
-  logs/acquisition.jsonl
+```powershell
+New-Item -ItemType Directory -Force .\data | Out-Null
+$dataPath = (Resolve-Path .\data).Path
+docker run --rm --mount "type=bind,source=$dataPath,target=/data/celestial-odyssey" polarix run --sector 1 --count 5 --seed 20261110
+docker run --rm --mount "type=bind,source=$dataPath,target=/data/celestial-odyssey" polarix run --sector 1 --count 300 --seed 20261110 --resume
 ```
 
-NPZ files preserve original time, SAP/PDCSAP flux and uncertainties, quality, centroid/background arrays when present, their source-column availability, the raw quality mask, the finite-value mask, and processed normalized/detrended arrays. FITS files remain untouched. Gaia/SIMBAD matches are coordinate based and include match separations; matches beyond the configured radius are not accepted, and near-tied matches are explicitly marked ambiguous. A no-match is a valid catalog result, distinct from a query failure.
+Counts of 5, 50, and 300 are supported. The second command resumes the same deterministic sample. Without the bind mount, container data is temporary. To inspect an existing dataset, replace `run ...` with `inventory`. Follow-up downloads are optional: `followup --limit 20`.
 
-Catalog snapshots carry source names, query URLs/table names, and UTC retrieval timestamps. Planet rows retain archive dispositions and are separated into confirmed planets and candidates. TESS-EB coverage uses the public MAST HLSP catalog CSV. Catalog service failures are logged and are not converted to empty successful matches.
+## Scientific care
 
-## Cloud persistence
+An anomaly is a candidate for investigation, not a discovery claim. Outlier scores are not probabilities; TESS data can contain gaps, noise, and instrumental artifacts; AI-generated interpretations must be grounded in scientific calculations. Reliable confirmation may require additional observations. Cite the TESS mission, SPOC, and relevant data providers when publishing results; see the [TESS data-use policy](https://archive.stsci.edu/missions-and-data/tess) and [mission paper](https://doi.org/10.1088/1538-3873/aa4be0).
 
-Set `CELESTIAL_DATA_ROOT` to a durable mounted path (for example, a persistent block volume or object-storage FUSE mount) in the cloud job. The package writes and caches data only under that root. It does not provision cloud infrastructure or upload to an account. Keep the persistent volume attached between staged runs. Network egress to [MAST](https://mast.stsci.edu/api/v0/), [ESA Gaia TAP](https://gea.esac.esa.int/tap-server/tap), [CDS SIMBAD](https://simbad.cds.unistra.fr/simbad/sim-tap), [NASA Exoplanet Archive TAP](https://exoplanetarchive.ipac.caltech.edu/TAP/), and the [MAST TESS-EB catalog](https://archive.stsci.edu/hlsp/tess-ebs) is required. MAST is the official TESS archive; SPOC is selected by product provenance and 120-second exposure metadata. TESS-EB v1.0 covers Sectors 1–26, so its no-match does not imply that a target is not an eclipsing binary.
-
-The included Docker image is cloud-runner ready. Build/push it to your cloud container registry, attach a persistent volume at `/data`, and run the staged commands above with `docker run -v <persistent-volume-mount>:/data <image> run ...`. The repository does not create cloud resources or receive cloud credentials.
-
-## Output contract
-
-`targets.csv` is the join point for the React Aladin Lite map and ML tools: TIC, coordinates, sector, Gaia DR3 and SIMBAD identifiers/classifications, known-object flags, periods where reported, paths, cadence, provenance, quality counts, and evaluation split. `target_metadata.json` preserves nested source records. Per-source catalog CSVs are also available for scientific verification. `manifest.json` records the random seed, query configuration, counts, versions, and retrieval timestamps.
-
-## Limitations surfaced in inventory
-
-Inventory distinguishes downloaded light curves from unique targets, successful catalog matches from explicit non-matches, and failures from unattempted work. It reports available and downloaded follow-up sectors, observation point counts, and persistent disk use. A completed target count is never inferred from the requested count.
+**POLARIX helps make unusual signals investigable—one measured light curve at a time.**
