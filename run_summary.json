@@ -1,0 +1,48 @@
+{
+    "project": "Celestial Odyssey",
+    "dataset": "tess-data",
+    "dataset_root": "/kaggle/input/datasets/abankitabehera/tess-data",
+    "experiment_type": "initial_10_star_pilot",
+    "target_count": 10,
+    "sector": 1,
+    "cadence_seconds": 120.0,
+    "processed_lightcurves": 10,
+    "bls_successful_targets": 10,
+    "peak_event_count": 93,
+    "statistical_feature_count": 5,
+    "isolation_forest_anomalies": 2,
+    "lof_anomalies": 0,
+    "candidate_record_count": 104,
+    "eligible_future_prediction_targets": 0,
+    "future_transit_windows_generated": 0,
+    "quality_bitmask": 175,
+    "primary_detrending_window_days": 1.0,
+    "ml_features": [
+        "mad",
+        "standard_deviation",
+        "skewness",
+        "kurtosis",
+        "amplitude"
+    ],
+    "ensemble_method": "Weighted Rank Aggregation",
+    "if_weight": 0.5,
+    "lof_weight": 0.5,
+    "event_detector_weight": 0.5,
+    "star_context_weight": 0.5,
+    "gpu_information": [
+        {
+            "gpu_id": 0,
+            "name": "Tesla T4",
+            "vram_gb": 14.56
+        },
+        {
+            "gpu_id": 1,
+            "name": "Tesla T4",
+            "vram_gb": 14.56
+        }
+    ],
+    "cpu_workers": 4,
+    "seed": 42,
+    "production_300_star_run_completed": false,
+    "overall_status": "pilot_pipeline_completed"
+}

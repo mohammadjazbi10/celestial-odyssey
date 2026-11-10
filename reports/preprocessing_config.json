@@ -1,0 +1,19 @@
+{
+    "project": "Celestial Odyssey",
+    "dataset": "tess-data",
+    "initial_target_count": 10,
+    "sector": 1,
+    "cadence_seconds": 120.0,
+    "quality_bitmask": 175,
+    "normalization": "median",
+    "detrending": "Savitzky-Golay",
+    "savgol_polyorder": 2,
+    "savgol_windows_days": [
+        0.5,
+        1.0,
+        2.0
+    ],
+    "primary_window_days": 1.0,
+    "max_interpolated_gap_cadences": 3,
+    "random_seed": 42
+}

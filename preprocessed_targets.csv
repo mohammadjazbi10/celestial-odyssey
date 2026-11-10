@@ -1,0 +1,11 @@
+tic_id,sector,output_path,array_count,total_cadences,valid_pdcsap_cadences,detrended_valid_points,status
+126764687,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_126764687/sector-1-preprocessed.npz,22,20076,18201,16040,success
+126892344,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_126892344/sector-1-preprocessed.npz,22,20076,18202,16040,success
+231715372,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_231715372/sector-1-preprocessed.npz,22,20076,18277,16040,success
+270339594,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_270339594/sector-1-preprocessed.npz,22,20076,18234,16042,success
+281497577,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_281497577/sector-1-preprocessed.npz,22,20076,18277,16040,success
+306633087,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_306633087/sector-1-preprocessed.npz,22,20076,18279,16042,success
+316878414,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_316878414/sector-1-preprocessed.npz,22,20076,18277,16040,success
+350345682,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_350345682/sector-1-preprocessed.npz,22,20076,17168,14222,success
+358577149,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_358577149/sector-1-preprocessed.npz,22,20076,18278,16041,success
+41595212,1,/kaggle/working/celestial_odyssey_outputs/lightcurves/TIC_41595212/sector-1-preprocessed.npz,22,20076,18279,16042,success

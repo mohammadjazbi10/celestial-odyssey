@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-cream: #ECE8DF;
+    --bg-dark: #141312;
+    --surface-dark: #1B1A18;
+    --elevated-dark: #23211E;
+    --border-dark: rgba(236, 232, 223, 0.16);
+    --border-light: rgba(20, 19, 18, 0.22);
+    --gold: #C5A059;
+    --gold-dim: #8A6A2A;
+    --gold-bright: #E5BE6C;
+    --coral: #D97757;
+    --steel: #6B8EAE;
+    --violet: #9D78A8;
+    --sage: #6EA893;
+    --font-display: 'Cinzel', 'Playfair Display', serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #141312;
+    color: #ECE8DF;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar matching Innovision */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #141312;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2724;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C5A059;
+  }
+}
+
+/* Innovision Chamfered Geometry */
+.chamfer-sm {
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+.chamfer-btn {
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.1, 1);
+}
+
+.chamfer-card {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%);
+}
+
+/* Stipple starfield background */
+.stipple-bg {
+  background-image: radial-gradient(rgba(236, 232, 223, 0.12) 1px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.stipple-bg-light {
+  background-image: radial-gradient(rgba(20, 19, 18, 0.1) 1px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+/* Radar Sweep Line matching Innovision central disc */
+.innovision-sweep {
+  background: conic-gradient(from 0deg, transparent 0 292deg, rgba(236, 232, 223, 0.22) 360deg);
+  animation: ivSpin 12s linear infinite;
+}
+
+@keyframes ivSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Orbital Rings */
+@keyframes orbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orbit {
+  animation: orbitSpin 80s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbitSpin 140s linear infinite reverse;
+}
+
+/* Four-Point Twinkle Star Animation */
+@keyframes twinkleFade {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkleFade 3.5s ease-in-out infinite;
+}
+
+/* Innovision Typography Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Gold glow text */
+.glow-gold {
+  text-shadow: 0 0 18px rgba(197, 160, 89, 0.45);
+}
+
+/* 3 Small Revolving Planets along background orbits (Innovision front page) */
+@keyframes revolvePlanet1 {
+  from {
+    transform: rotate(0deg) translate(280px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translate(280px) rotate(-360deg);
+  }
+}
+
+@keyframes revolvePlanet2 {
+  from {
+    transform: rotate(135deg) translate(410px) rotate(-135deg);
+  }
+  to {
+    transform: rotate(495deg) translate(410px) rotate(-495deg);
+  }
+}
+
+@keyframes revolvePlanet3 {
+  from {
+    transform: rotate(250deg) translate(530px) rotate(-250deg);
+  }
+  to {
+    transform: rotate(610deg) translate(530px) rotate(-610deg);
+  }
+}
+
+.animate-revolve-1 {
+  animation: revolvePlanet1 44s linear infinite;
+}
+
+.animate-revolve-2 {
+  animation: revolvePlanet2 82s linear infinite;
+}
+
+.animate-revolve-3 {
+  animation: revolvePlanet3 125s linear infinite;
+}

@@ -1,0 +1,11 @@
+tic_id,sector,raw_fits,processed_npz,raw_available,npz_available,pair_complete
+126764687,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-126764687/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-126764687/sector-1.npz,True,True,True
+126892344,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-126892344/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-126892344/sector-1.npz,True,True,True
+231715372,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-231715372/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-231715372/sector-1.npz,True,True,True
+270339594,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-270339594/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-270339594/sector-1.npz,True,True,True
+281497577,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-281497577/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-281497577/sector-1.npz,True,True,True
+306633087,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-306633087/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-306633087/sector-1.npz,True,True,True
+316878414,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-316878414/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-316878414/sector-1.npz,True,True,True
+350345682,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-350345682/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-350345682/sector-1.npz,True,True,True
+358577149,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-358577149/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-358577149/sector-1.npz,True,True,True
+41595212,1,/kaggle/input/datasets/abankitabehera/tess-data/data/raw/tic-41595212/sector-1.fits,/kaggle/input/datasets/abankitabehera/tess-data/data/processed/tic-41595212/sector-1.npz,True,True,True
