@@ -126,6 +126,12 @@ POLARIX combines complementary algorithms to detect different signal patterns.
 | **Rank Fusion** | Combine detector evidence into prioritized candidates |
 
 Statistical features include standard deviation, median absolute deviation (MAD), skewness, kurtosis, amplitude, and other variability measurements.
+Below images show our analysis of data:
+
+<img width="1280" height="832" alt="WhatsApp Image 2026-11-10 at 5 19 51 PM" src="https://github.com/user-attachments/assets/3446daff-1748-4d1a-b795-800f37ecd4cc" />
+<img width="1280" height="832" alt="WhatsApp Image 2026-11-10 at 5 19 53 PM" src="https://github.com/user-attachments/assets/807e4d1b-25ff-403e-b278-5928650ba031" />
+<img width="1280" height="832" alt="WhatsApp Image 2026-11-10 at 5 19 52 PM" src="https://github.com/user-attachments/assets/02f1b6f6-f534-4e58-8d10-007e5b0a47e2" />
+
 
 ### Step 3: Candidate Categorization
 
@@ -170,6 +176,7 @@ An interactive candidate browser supporting:
 - Signal categories and detector scores.
 - Search, sorting, and filtering.
 - Candidate selection and investigation.
+
 
 ### Candidate Workspace
 
