@@ -1,7 +1,10 @@
 
 # 🌌 POLARIX
 ### Discover the Unusual. Investigate the Unknown.
-
+**Team Name** - Zenkai
+**Team Members** - 1.Rajesh Kumar Swain
+               2.Mohammad Jazbi
+               3.Abankita Behera
 **An AI-Powered Platform for Astronomical Anomaly Discovery, Scientific Investigation & Future Predictions**
 
 POLARIX combines real NASA TESS observations, hybrid machine learning, scientific verification, and Google Gemma 4 to help users discover, explore, investigate, and document unusual stellar behavior.
